@@ -6,7 +6,7 @@ import { backendUrl, formatter } from "../utils/utilities";
 import Input from "./UI/Input";
 
 export default function Checkout() {
-  const { cart } = useContext(CartContext);
+  const { cart, resetCart } = useContext(CartContext);
   const { hideCheckout, progress } = useContext(UserProgressContext);
 
   let cartTotal = cart.reduce((total, item) => (total = total + item.price * item.count), 0);
@@ -35,6 +35,7 @@ export default function Checkout() {
           throw new Error(data.message);
         }
         hideCheckout();
+        resetCart();
         console.log("Order Submitted successfully🎉", data);
       } catch (error) {
         console.error("Error submitting order❌", error);
