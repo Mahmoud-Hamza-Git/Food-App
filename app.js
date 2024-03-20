@@ -1,6 +1,4 @@
 import fs from "node:fs/promises";
-
-// import bodyParser from "body-parser";
 import express from "express";
 
 const app = express();
@@ -65,6 +63,7 @@ app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
+const port = process.env.PORT || 3000;
 app.listen(3000, (err) => {
-  console.log("Server started on http://localhost:3000");
+  console.log(`Server started on PORT: ${port}`);
 });
