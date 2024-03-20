@@ -22,6 +22,10 @@ export default function CartContextProvider({ children }) {
     });
   };
 
+  const resetCart = () => {
+    setCart([]);
+  };
+
   const incrementCount = (id) => {
     setCart((prevCart) => {
       const itemIndex = prevCart.findIndex((element) => element.id == id);
@@ -50,6 +54,7 @@ export default function CartContextProvider({ children }) {
   const ctxValue = {
     cart,
     addItem,
+    resetCart,
     incrementCount,
     decrementCount,
   };
