@@ -4,10 +4,12 @@ import { CartContext } from "../context/cartCtx";
 import { UserProgressContext } from "../context/userProgressCtx";
 import { backendUrl, formatter } from "../utils/utilities";
 import Input from "./UI/Input";
+import { useState } from "react";
 
 export default function Checkout() {
   const { cart, resetCart } = useContext(CartContext);
   const { hideCheckout, progress } = useContext(UserProgressContext);
+  const [successModal, setSuccessModal] = useState(false);
 
   let cartTotal = cart.reduce((total, item) => (total = total + item.price * item.count), 0);
   cartTotal = formatter(cartTotal);
@@ -36,6 +38,7 @@ export default function Checkout() {
         }
         hideCheckout();
         resetCart();
+        setSuccessModal(true);
         console.log("Order Submitted successfully🎉", data);
       } catch (error) {
         console.error("Error submitting order❌", error);
@@ -45,6 +48,22 @@ export default function Checkout() {
     submitOrder();
   }
 
+  if (successModal) {
+    return (
+      <Modal
+        open={successModal}
+        onClose={() => setSuccessModal(false)}
+        style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+        <h2>Order Submitted</h2>
+        <p>Your order has been submitted successfully. Thank you for shopping with us!</p>
+        <p className="modal-actions">
+          <button className="button" onClick={() => setSuccessModal(false)}>
+            Close
+          </button>
+        </p>
+      </Modal>
+    );
+  }
   return (
     <Modal
       className="checkout"
